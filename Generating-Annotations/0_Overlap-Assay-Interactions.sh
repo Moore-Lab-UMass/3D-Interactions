@@ -9,9 +9,10 @@ ccreDir=$registryDir/Cell-Type-Specific/Individual-Files
 chiaDir=/data/projects/encode/3D-Chromatin/ChIA-PET/Ruan-ENCODE4
 hicDir=$registryDir/3D-Links/HiC
 dataDir=/data/projects/encode/data/
+folder=Assay-Overlap-Details
 
 cd $workingDir/1_General-Comparisons
-mkdir -p Assay-Overlap-Details-2
+mkdir -p $folder
 
 for i in `seq 1 1 6`
 do
@@ -70,7 +71,7 @@ do
 		awk '{print $1 "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" $6}' | sort -u |
                 awk '{print $0 "\t" "Single"}' > tmp.tmp
 	cat tmp.tmp >> out.$links1
-	sort -k1,1 -k2,2n -k3,3n -k5,5n -k6,6n out.$links1 > Assay-Overlap-Details-2/$cell.$links1.txt
+	sort -k1,1 -k2,2n -k3,3n -k5,5n -k6,6n out.$links1 > $folder/$cell.$links1.txt
 	rm out.$links1
     done
 done
