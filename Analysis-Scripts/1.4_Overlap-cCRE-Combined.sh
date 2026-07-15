@@ -1,3 +1,7 @@
+#Jill Moore
+#UMass Chan
+#July 2026
+
 
 workingDir=~/Moore-Lab/Papers/3D-Genome
 

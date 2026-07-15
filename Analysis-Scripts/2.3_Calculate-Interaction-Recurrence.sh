@@ -6,8 +6,10 @@ ccreDir=/home/moorej3/Lab/ENCODE/Encyclopedia/V7/Registry/V7-hg38/Cell-Type-Spec
 chiapetDir=/data/projects/encode/3D-Chromatin/ChIA-PET/Ruan-ENCODE4/
 dataDir=/data/projects/encode/data/
 registryDir=/home/moorej3/Lab/ENCODE/Encyclopedia/V7/Registry/V7-hg38
+scriptDir=~/GitHub/3D-Interactions/Analysis-Scripts
 
-cd $workingDir/3_Dual-Elements
+source ~/.bashrc
+cd $workingDir/2_Promoter-Centric
 
 rm -f running.*
 for i in `seq 1 1 6`
@@ -25,7 +27,7 @@ do
     grep P-C tmp.links >> tmp.links1
 
     rm -f running.overlap
-
+ 
     for j in `seq 1 1 6`
     do
         cell2=$(awk '{if (NR == '$j') print $1}' $list | awk -F "_" '{print $3}')
@@ -36,8 +38,9 @@ do
 	    awk '{print $7}' | sort -u >> running.overlap
 
     done
+    
     python ~/bin/count.py running.overlap 0 > tmp.counts
-
+    
     groups1=(P-P P-E P-C)
     groups2=(CTCF-Anchor No-CTCF)
 
@@ -45,17 +48,21 @@ do
     do
         for group2 in ${groups2[@]}
 	do
-	    grep $group1 tmp.counts | grep $group2 | \
-		awk '{if ($NF > 3) high +=1}END{print "'$cell1'" "\t" "'$group1'" "\t" "'$group2'" \
-		"\t" NR "\t" high "\t" high/NR}' >> running.summary
+	    grep $group1 tmp.counts | grep $group2 > tmp.group
+	    python $scriptDir/Toolkit/count-recurrance.py tmp.group | \
+		awk '{print "'$cell1'" "\t" "'$group1'" "\t" "'$group2'" "\t" $0}' >> running.summary2
+	    awk '{if ($NF > 3) high +=1}END{print "'$cell1'" "\t" "'$group1'" "\t" "'$group2'" \
+		"\t" NR "\t" high "\t" high/NR}' tmp.group >> running.summary
+
 	done
     done
 
-    mkdir -p Stability-Cross-Lines
-    mv tmp.counts Stability-Cross-Lines/$cell1.Stabilty-Counts.txt
+    mkdir -p Recurrance-Across-Cell-Lines
+    mv tmp.counts Recurrance-Across-Cell-Lines/$cell1.Recurrance-Counts.txt
+
     rm tmp.*
 done
 
-
-mv running.summary Stability-Cross-Lines/Summary-Stability-Counts.txt
+mv running.summary Recurrance-Across-Cell-Lines/Summary-Recurrance-Split.txt
+mv running.summary2 Recurrance-Across-Cell-Lines/Summary-Recurrance-Counts.txt
 rm running.*

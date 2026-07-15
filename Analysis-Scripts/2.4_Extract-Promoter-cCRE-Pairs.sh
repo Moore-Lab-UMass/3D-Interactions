@@ -54,6 +54,16 @@ do
     python $scriptDir/match-promoter-ccre.py $registryDir/PLS-Gene-List.hg38-V4.txt \
 	tmp.overlap-pls tmp.overlap-ctcf > Promoter-CTCF-Pairs/$cell.P-C-Pairs.txt
 
+    total=$(wc -l tmp.pls | awk '{print $1}')
+    pp=$(awk '{print $2}' Promoter-Promoter-Pairs/$cell.P-P-Pairs.txt | sort -u | wc -l | awk '{print $1}')
+    pe=$(awk '{print $2}' Promoter-Enhancer-Pairs/$cell.P-E-Pairs.txt | sort -u | wc -l | awk '{print $1}')
+    pc=$(awk '{print $2}' Promoter-CTCF-Pairs/$cell.P-C-Pairs.txt | sort -u | wc -l | awk '{print $1}')
+
+    echo -e $cell "\t" $total "\t" $pp "\t" $pe "\t" $pc >> running.summary
+
     rm tmp.*
 done
+
+mv running.summary Summary-Promoter-Coverage.txt
+
 

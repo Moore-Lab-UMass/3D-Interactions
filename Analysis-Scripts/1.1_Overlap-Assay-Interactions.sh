@@ -1,10 +1,10 @@
 #Jill Moore
 #UMass Chan
-#April 2026
+#July 2026
 
 workingDir=~/Moore-Lab/Papers/3D-Genome/
 list=$workingDir/0_Reference-Set-Up/Master-Biosample-Experiment-List.txt
-registryDir=/home/moorej3/Lab/ENCODE/Encyclopedia/V7/Registry/V7-hg38/
+registryDir=/home/moorej3/Lab/ENCODE/Encyclopedia/V7/Registry/V7-hg38
 ccreDir=$registryDir/Cell-Type-Specific/Individual-Files
 chiaDir=/data/projects/encode/3D-Chromatin/ChIA-PET/Ruan-ENCODE4
 hicDir=$registryDir/3D-Links/HiC

@@ -9,17 +9,22 @@ genes=~/Lab/Reference/Human/hg38/GENCODE40/Genes.Basic.bed
 scriptDir=~/GitHub/3D-Interactions/scratch/2
 
 cd $workingDir/2_Promoter-Centric
+source ~/.bashrc
 
 rm -f tmp.out
-for i in `seq 1 1 1`
+for i in `seq 1 1 6`
 do
     cell=$(awk '{if (NR == '$i') print $1}' $list | awk -F "_" '{print $3}')
     dnase=$(awk '{if (NR == '$i') print $9}' $list)
-    grep PLS $ccreDir/$dnase*bed > tmp.pls
-    grep dELS $ccreDir/$dnase*bed > tmp.dels
+    ctcfChIP=$(awk '{if (NR == '$i') print $14"-"$15}' $list)
+    awk '{if ($2 > 2.32) print $0}' $registryDir/signal-output/$ctcfChIP.txt |
+        awk 'FNR==NR {x[$1];next} ($4 in x)' - $registryDir/hg38-cCREs-Unfiltered.bed > tmp.dels
 
-    grep P-Ed Promoter-Enhancer-Pairs/$cell.P-E-Pairs.txt | awk '{print $1 "\t" $4}' | sort -u > x
-    awk 'FNR==NR {x[$1];next} ($4 in x)' x tmp.dels | awk '{print $1 "\t" $2 "\t" $3 "\t" $4}' | \
+    grep PLS $ccreDir/$dnase*bed > tmp.pls
+    #grep dELS $ccreDir/$dnase*bed > tmp.dels
+
+    grep P-C Promoter-CTCF-Pairs/$cell.P-C-Pairs.txt | awk '{print $1 "\t" $4}' | sort -u > x
+    awk 'FNR==NR {x[$1];next} ($5 in x)' x tmp.dels | awk '{print $1 "\t" $2 "\t" $3 "\t" $5}' | \
 	sort -k1,1 -k2,2n | bedtools closest -d -a stdin -b $tss | \
 	awk '{print $4 "\t" $(NF-1) "\t" $NF}' | sort -u > y
     awk '{if ($NF > 10000) print $0}' y > y.10k
@@ -45,9 +50,9 @@ do
 
     cat out.* | awk 'FNR==NR {x[$1];next} !($1 in x)' - x > tmp.round4 
 
-    grep CTCF-Anchors Promoter-Enhancer-Pairs/$cell.P-E-Pairs.txt | grep P-Ed | awk '{print $1}' | \
+    grep CTCF-Anchors Promoter-CTCF-Pairs/$cell.P-C-Pairs.txt | awk '{print $1}' | \
 	sort -u | awk 'FNR==NR {x[$1];next} !($1 in x)' out.10k - > a
-    grep -v CTCF-Anchors Promoter-Enhancer-Pairs/$cell.P-E-Pairs.txt | grep P-Ed | awk '{print $1}' | \
+    grep -v CTCF-Anchors Promoter-CTCF-Pairs/$cell.P-C-Pairs.txt | awk '{print $1}' | \
 	sort -u | awk 'FNR==NR {x[$1];next} !($1 in x)' out.10k - > b
     awk 'FNR==NR {x[$0];next} ($0 in x)' a b  > tmp.both
     awk 'FNR==NR {x[$0];next} !($0 in x)' a b  > tmp.uniq-b
@@ -84,7 +89,7 @@ do
     awk '{print $NF "\t" $0}'  $tss2 | awk -F "." 'FNR==NR {x[$1];next} ($1 in x)' tmp.tpm5 - | awk '{printf "%s", $2; for(i=3;i<=NF;i+=1) printf "\t%s",$i ; print ""}' > tmp.filtered
 
 
-    awk 'FNR==NR {x[$1];next} ($4 in x)' x tmp.dels | awk '{print $1 "\t" $2 "\t" $3 "\t" $4}' | \
+    awk 'FNR==NR {x[$1];next} ($5 in x)' x tmp.dels | awk '{print $1 "\t" $2 "\t" $3 "\t" $5}' | \
 	awk 'FNR==NR {x[$1];next} ($4 in x)' y.10k - | sort -k1,1 -k2,2n | \
         bedtools closest -d -a stdin -b tmp.filtered | awk '{print $4 "\t" $(NF-1) "\t" $NF}' | sort -u > y5
 
@@ -105,8 +110,6 @@ awk -F "." 'FNR==NR {x[$1];next} ($1 in x)' x10k y5 | awk 'FNR==NR {x[$1];next} 
 t2=$(awk 'FNR==NR {x[$1];next} ($1 in x)' $group x10k | wc -l | awk '{print $1}')
 awk -F "." 'FNR==NR {x[$1];next} ($1 in x)' y5 x10k | awk 'FNR==NR {x[$1];next} ($1 in x)' $group - | wc -l | awk '{print $1 "\t" "'$t2'" "\t" $1/'$t2'}'
 done
-
-
 
 rm out.* tmp.* x* y*
 done
