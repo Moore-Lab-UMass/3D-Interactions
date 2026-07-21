@@ -14,6 +14,8 @@ folder=Assay-Overlap-Details
 cd $workingDir/1_General-Comparisons
 mkdir -p $folder
 
+source ~/.bashrc
+
 for i in `seq 1 1 6`
 do
     cell=$(awk '{if (NR == '$i') print $1}' $list | awk -F "_" '{print $3}')
@@ -49,7 +51,7 @@ do
                 awk '{print $1$2$3$4$5$6}' | sort -u | wc -l | awk '{print $1 - '$a'}')
 	e=$(wc -l tmp.1 | awk '{print $1 - ('$a' + '$b' + '$c' + '$d')}')
 
-	echo -e $cell "\t" $links1 "\t" $total "\t" $a "\t" $b "\t" $c "\t" $d "\t" $e
+	echo -e $cell "\t" $links1 "\t" $total "\t" $a "\t" $b "\t" $c "\t" $d "\t" $e >> running.output
 
 	awk 'FNR==NR {x[$1$2$3$4$5$6];next} ($1$2$3$4$5$6 in x)' tmp.RNAPII tmp.CTCF |
                 awk 'FNR==NR {x[$1$2$3$4$5$6];next} ($1$2$3$4$5$6 in x)' tmp.HiC - |
@@ -77,3 +79,5 @@ do
 done
 
 rm tmp.*
+
+mv running.output Summary-Assay-Overlap.txt

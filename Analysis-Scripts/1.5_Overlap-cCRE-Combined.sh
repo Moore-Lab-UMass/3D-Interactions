@@ -11,8 +11,9 @@ ccreDir=$registryDir/Cell-Type-Specific/Individual-Files
 dataDir=/data/projects/encode/data/
 
 cd $workingDir/1_General-Comparisons
+source ~/.bashrc
 
-rm -f tmp.out
+rm -f tmp.out running.output
 for i in `seq 1 1 6`
 do
     cell=$(awk '{if (NR == '$i') print $1}' $list | awk -F "_" '{print $3}')
@@ -58,7 +59,7 @@ do
 	none=$(bedtools pairtobed -type neither -a tmp.next2 -b $registryDir/hg38-cCREs-Unfiltered.bed | \
 	    awk '{print $1$2$3$4$5$6}' | sort -u | wc -l | awk '{print $1}')
 
-        echo -e $cell "\t" $assay "\t" $pls "\t" $els "\t" $ctcf "\t" $other "\t" $inactive "\t" $none
+        echo -e $cell "\t" $assay "\t" $pls "\t" $els "\t" $ctcf "\t" $other "\t" $inactive "\t" $none >> running.output
     done
 done
-
+mv running.output Summary-cCRE-Overlap.txt
