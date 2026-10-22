@@ -1,9 +1,12 @@
-
+#Jill Moore
+#UMass Chan
+#October 2026
+#
 workingDir=~/Moore-Lab/Papers/3D-Genome
 
 tfBed=$workingDir/0_Reference-Set-Up/Representative-TF-rPeak-Motifs.bed
 tfList=$workingDir/0_Reference-Set-Up/TF-100-List.txt
-ccres=$workingDir/3_Dual-Elements/Candidate-Dual-Elements.bed
+ccres=$workingDir/4_Dual-Elements/Candidate-Dual-Elements.bed
 bigWig=~/Lab/Reference/Human/hg38/Conservation/hg38_240mammal_phyloP.bw
 scriptDir=~/GitHub/3D-Interactions/Analysis-Scripts/Toolkit
 alignment=/zata/zippy/andrewsg/projects/zoonomia/hdf5/zoonomia_241_v2.h5
@@ -11,17 +14,17 @@ alignment=/zata/zippy/andrewsg/projects/zoonomia/hdf5/zoonomia_241_v2.h5
 source ~/.bashrc
 conda activate notebook
 
-cd $workingDir/4_TF-Conservation
+cd $workingDir/5_TF-Conservation
 
 rm -f running.output
 
-bedtools intersect -wo -a Beds/test.CTCF -b $workingDir/3_Dual-Elements/Candidate-Dual-Elements.bed | awk '!seen[$10]++'> tmp.CTCF
+bedtools intersect -wo -a Beds/test.CTCF -b $workingDir/4_Dual-Elements/Candidate-Dual-Elements.bed | awk '!seen[$10]++'> tmp.CTCF
 
 for j in `seq 1 1 42`
 do
     tf=$(awk -F "\t" '{if (NR == '$j') print $1}' $tfList)
 
-    bedtools intersect -wo -a Beds/test.$tf -b $workingDir/3_Dual-Elements/Candidate-Dual-Elements.bed | awk '!seen[$10]++' > tmp.$tf
+    bedtools intersect -wo -a Beds/test.$tf -b $workingDir/4_Dual-Elements/Candidate-Dual-Elements.bed | awk '!seen[$10]++' > tmp.$tf
 
     awk 'FNR==NR {x[$10];next} ($10 in x)' tmp.CTCF tmp.$tf | sort -k10,10 > match.tf
     awk 'FNR==NR {x[$10];next} ($10 in x)' tmp.$tf tmp.CTCF | sort -k10,10 > match.ctcf
@@ -58,3 +61,13 @@ done
 
 
 mv running.output Summary-Paired-Similarity-Scores.txt
+
+
+tfs=(JUN CEBPB ATF1 RXRA FOXA2 HNF4A)
+for tf in ${tfs[@]}
+do
+    awk '{if (NR > 1) print $8 "\t" "'$tf'-CTCF" "\t" "TF"}' Similarity-Scores/$tf-CTCF.75.tsv >> running.output
+    awk '{if (NR > 1) print $8 "\t" "'$tf'-CTCF" "\t" "CTCF"}' Similarity-Scores/CTCF-$tf.75.tsv >> running.output
+done
+
+mv running.output Example-TF-Paired-Similarity.txt

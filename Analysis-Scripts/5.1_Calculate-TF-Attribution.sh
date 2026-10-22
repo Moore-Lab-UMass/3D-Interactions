@@ -1,4 +1,7 @@
-
+#Jill Moore
+#UMass Chan
+#October 2026
+#
 workingDir=~/Moore-Lab/Papers/3D-Genome
 scriptDir=/home/moorej3/GitHub/3D-Interactions/Analysis-Scripts/Toolkit
 list=$workingDir/0_Reference-Set-Up/Master-Biosample-Experiment-List.txt
@@ -9,9 +12,9 @@ registryDir=/home/moorej3/Lab/ENCODE/Encyclopedia/V7/Registry/V7-hg38
 tfBed=$workingDir/0_Reference-Set-Up/Representative-TF-rPeak-Motifs.bed
 tfList=$workingDir/0_Reference-Set-Up/TF-100-List.txt
 
-regions=$workingDir/3_Dual-Elements/Candidate-Dual-Elements.txt
+regions=$workingDir/4_Dual-Elements/Candidate-Dual-Elements.txt
 
-cd $workingDir/4_TF-Conservation
+cd $workingDir/5_TF-Conservation
 
 for i in `seq 1 1 6`
 do
@@ -19,7 +22,7 @@ do
     dnase=$(awk '{if (NR == '$i') print $9}' $list)
     ctcfChIP=$(awk '{if (NR == '$i') print $14"-"$15}' $list)
     chrombpnet=$(awk '{if (NR == '$i') print $20}' $list)
-    bigWig=$workingDir/3_Dual-Elements/ChromBPNet/Attribution-BigWigs/$chrombpnet.bigWig
+    bigWig=$workingDir/4_Dual-Elements/ChromBPNet/Attribution-BigWigs/$chrombpnet.bigWig
 
     echo $cell
 

@@ -1,3 +1,6 @@
+#Jill Moore
+#UMass Chan
+#October 2026
 
 workingDir=~/Moore-Lab/Papers/3D-Genome
 
@@ -6,7 +9,7 @@ tfList=$workingDir/0_Reference-Set-Up/TF-100-List.txt
 ccres=$workingDir/3_Dual-Elements/Candidate-Dual-Elements.bed
 bigWig=~/Lab/Reference/Human/hg38/Conservation/hg38_240mammal_phyloP.bw
 
-cd $workingDir/4_Conservation
+cd $workingDir/5_Conservation
 
 for j in `seq 1 1 42`
 do
