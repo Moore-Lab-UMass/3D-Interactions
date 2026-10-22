@@ -14,7 +14,7 @@ alignment=/zata/zippy/andrewsg/projects/zoonomia/hdf5/zoonomia_241_v2.h5
 source ~/.bashrc
 conda activate notebook
 
-cd $workingDir/4_TF-Conservation
+cd $workingDir/5_TF-Conservation
 
 ### Example 1
 
