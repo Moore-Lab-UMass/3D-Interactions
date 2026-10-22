@@ -1,3 +1,6 @@
+#Jill Moore
+#UMass Chan
+#October 2026
 
 workingDir=~/Moore-Lab/Papers/3D-Genome
 scriptDir=/home/moorej3/GitHub/3D-Interactions/Analysis-Scripts/Toolkit
@@ -9,7 +12,7 @@ registryDir=/home/moorej3/Lab/ENCODE/Encyclopedia/V7/Registry/V7-hg38
 
 source ~/.bashrc
 
-cd $workingDir/3_Dual-Elements
+cd $workingDir/4_Dual-Elements
 mkdir -p CAPRA-Scores
 
 cell=K562

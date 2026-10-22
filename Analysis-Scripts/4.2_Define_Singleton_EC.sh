@@ -1,3 +1,6 @@
+#Jill Moore
+#UMass Chan
+#October 2026
 
 workingDir=~/Moore-Lab/Papers/3D-Genome
 
@@ -7,7 +10,7 @@ chiapetDir=/data/projects/encode/3D-Chromatin/ChIA-PET/Ruan-ENCODE4/
 dataDir=/data/projects/encode/data/
 registryDir=/home/moorej3/Lab/ENCODE/Encyclopedia/V7/Registry/V7-hg38
 
-cd $workingDir/3_Dual-Elements
+cd $workingDir/4_Dual-Elements
 
 rm -f running.*
 for i in `seq 1 1 6`
