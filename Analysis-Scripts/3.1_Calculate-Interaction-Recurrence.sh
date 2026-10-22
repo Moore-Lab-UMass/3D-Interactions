@@ -63,6 +63,6 @@ do
     rm tmp.*
 done
 
-mv running.summary Recurrance-Across-Cell-Lines/Summary-Recurrance-Split.txt
-mv running.summary2 Recurrance-Across-Cell-Lines/Summary-Recurrance-Counts.txt
+mv running.summary ../3_Candidate-Architectural/Recurrance-Across-Cell-Lines/Summary-Recurrance-Split.txt
+mv running.summary2 ../3_Candidate-Architectural/Recurrance-Across-Cell-Lines/Summary-Recurrance-Counts.txt
 rm running.*
