@@ -1,4 +1,6 @@
-
+#Jill Moore
+#UMass Chan
+#October 2026
 
 scriptDir=/data/zusers/moorej3/GitHub/3D-Interactions/Analysis-Scripts/Toolkit
 control=/data/projects/encode/Registry/V4/GRCh38/GRCh38-cCREs-All.bed
@@ -8,7 +10,7 @@ list=$workingDir/0_Reference-Set-Up/Master-Biosample-Experiment-List.txt
 registryDir=/home/moorej3/Lab/ENCODE/Encyclopedia/V7/Registry/V7-hg38/
 dataDir=/data/projects/encode/data/
 
-cd $workingDir/5_Biological-Spectrum/Gene-Ontology
+cd $workingDir/6_Biological-Spectrum/Gene-Ontology
 
 for i in `seq 1 1 6`
 do
