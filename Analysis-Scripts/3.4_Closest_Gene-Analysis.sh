@@ -53,9 +53,9 @@ do
     cat out.* | awk 'FNR==NR {x[$1];next} !($1 in x)' - x > tmp.round4 
 
     grep CTCF-Anchors Promoter-Enhancer-Pairs/$cell.P-E-Pairs.txt | grep P-Ed | awk '{print $1}' | \
-	sort -u | awk 'FNR==NR {x[$1];next} !($1 in x)' out.10k - > a
+	sort -u > a
     grep -v CTCF-Anchors Promoter-Enhancer-Pairs/$cell.P-E-Pairs.txt | grep P-Ed | awk '{print $1}' | \
-	sort -u | awk 'FNR==NR {x[$1];next} !($1 in x)' out.10k - > b
+	sort -u > b
     awk 'FNR==NR {x[$0];next} ($0 in x)' a b  > tmp.both
     awk 'FNR==NR {x[$0];next} !($0 in x)' a b  > tmp.uniq-b
     awk 'FNR==NR {x[$0];next} !($0 in x)' b a  > tmp.uniq-a
@@ -127,9 +127,9 @@ do
     cat out.* | awk 'FNR==NR {x[$1];next} !($1 in x)' - tmp.assignments | awk '{print $1}' | sort -u > out.remaining
 
     grep CTCF-Anchors Promoter-Promoter-Pairs/$cell.P-P-Pairs.txt | awk '{print $1 "\n" $2}' | \
-	sort -u | awk 'FNR==NR {x[$1];next} !($1 in x)' out.round-4 - > tmp.can-arch
+	sort -u > tmp.can-arch
     grep -v CTCF-Anchors Promoter-Promoter-Pairs/$cell.P-P-Pairs.txt | awk '{print $1 "\n" $2}' | \
-	sort -u | awk 'FNR==NR {x[$1];next} !($1 in x)' out.round-4 - > tmp.non-arch
+	sort -u > tmp.non-arch
     awk 'FNR==NR {x[$0];next} ($0 in x)' tmp.can-arch tmp.non-arch  > tmp.both
     awk 'FNR==NR {x[$0];next} !($0 in x)' tmp.non-arch tmp.can-arch  > tmp.arch-only
     awk 'FNR==NR {x[$0];next} !($0 in x)' tmp.can-arch tmp.non-arch  > tmp.no-only
@@ -194,9 +194,9 @@ do
     cat out.* | awk 'FNR==NR {x[$1];next} !($1 in x)' - x > tmp.round4 
 
     grep CTCF-Anchors Promoter-CTCF-Pairs/$cell.P-C-Pairs.txt | awk '{print $1}' | \
-	sort -u | awk 'FNR==NR {x[$1];next} !($1 in x)' out.10k - > a
+	sort -u > a
     grep -v CTCF-Anchors Promoter-CTCF-Pairs/$cell.P-C-Pairs.txt | awk '{print $1}' | \
-	sort -u | awk 'FNR==NR {x[$1];next} !($1 in x)' out.10k - > b
+	sort -u > b
     awk 'FNR==NR {x[$0];next} ($0 in x)' a b  > tmp.both
     awk 'FNR==NR {x[$0];next} !($0 in x)' a b  > tmp.uniq-b
     awk 'FNR==NR {x[$0];next} !($0 in x)' b a  > tmp.uniq-a
