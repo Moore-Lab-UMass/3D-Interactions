@@ -1,6 +1,6 @@
 #Jill Moore
 #UMass Chan
-#July 2026
+#October 2026
 
 workingDir=~/Moore-Lab/Papers/3D-Genome/
 list=$workingDir/0_Reference-Set-Up/Master-Biosample-Experiment-List.txt
